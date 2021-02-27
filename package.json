@@ -1,0 +1,20 @@
+{
+  "name": "adonis-api-docs",
+  "version": "0.0.0",
+  "description": "Automatic API documentation builder for AdonisJS",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alepontes/adonis-api-docs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "adonisjs",
+    "docs",
+    "api"
+  ],
+  "author": "Ale Pontes <alexandrelopespontes@gmail.com>",
+  "license": "MIT"
+}
