@@ -1,4 +1,7 @@
+const { ServiceProvider } = require('@adonisjs/fold')
 const { hooks } = require('@adonisjs/ignitor');
+const RouteStore = require('@adonisjs/framework/src/Route/Store');
+const Route = require('@adonisjs/framework/src/Route/index');
 
 class AdonisApiDocsProvider extends ServiceProvider {
 
@@ -35,7 +38,12 @@ class AdonisApiDocsProvider extends ServiceProvider {
      * 
      * @return {void}
      */
-    registerDocRouter() { }
+    registerDocRouter() {
+        const handler = ({ response }) => response.status(418).send('Hello World');
+
+        const routeInstance = new Route('/docs', handler, ['GET']);
+        RouteStore.add(routeInstance);
+    }
 
 }
 
