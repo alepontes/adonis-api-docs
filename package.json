@@ -1,7 +1,7 @@
 {
   "name": "adonis-api-docs",
   "version": "0.0.0",
-  "description": "Automatic API documentation builder for AdonisJS",
+  "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
     "api"
   ],
   "author": "Ale Pontes <alexandrelopespontes@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@adonisjs/ignitor": "^2.0.8"
+  }
 }
