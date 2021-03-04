@@ -1,8 +1,11 @@
-const { ServiceProvider } = require('@adonisjs/fold')
+'use strict'
+
+const { ServiceProvider } = require('@adonisjs/fold');
 const { hooks } = require('@adonisjs/ignitor');
 const RouteStore = require('@adonisjs/framework/src/Route/Store');
 const Route = require('@adonisjs/framework/src/Route/index');
 
+const StaticDocs = require('../middleware/StaticDocs');
 const path = require('path');
 const fs = require('fs');
 
@@ -37,7 +40,16 @@ class AdonisApiDocsProvider extends ServiceProvider {
      * 
      * @return {void}
      */
-    registerStaticMiddleware() { }
+    registerStaticMiddleware() {
+        this.app.bind('Adonis/Middleware/StaticDocs', (app) => {
+            const Helpers = app.use('Adonis/Src/Helpers');
+            const publicPath = path.join(__dirname, '..', 'public');
+            return StaticDocs(publicPath, app.use('Adonis/Src/Config'), Helpers.promisify);
+        });
+
+        const Server = use('Server')
+        Server.use(['Adonis/Middleware/StaticDocs'])
+    }
 
     /**
      * Register documentation router
