@@ -31,7 +31,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
     loadRoutes() {
         const routes = RouteStore.list();
         const routesStringfy = JSON.stringify(routes);
-        fs.writeFileSync(outPath, routesStringfy);
+        fs.writeFileSync(`${outPath}/routes`, routesStringfy);
     }
 
     /**
