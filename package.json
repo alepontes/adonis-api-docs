@@ -1,6 +1,6 @@
 {
   "name": "adonis-api-docs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
@@ -14,6 +14,13 @@
     "adonisjs",
     "docs",
     "api"
+  ],
+  "files": [
+    "/middleware",
+    "/providers",
+    "/template/out",
+    "/*.md",
+    "/*.json"
   ],
   "author": "Ale Pontes <alexandrelopespontes@gmail.com>",
   "license": "MIT",

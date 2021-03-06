@@ -4,3 +4,4 @@ template/node_modules
 template/out
 template/.next
 template/public/routes
+*.tgz
