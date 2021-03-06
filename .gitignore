@@ -1,3 +1,6 @@
 node_modules
 
-public/routes
+template/node_modules
+template/out
+template/.next
+template/public/routes

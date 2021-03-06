@@ -1,13 +1,24 @@
 'use strict'
 
-const { ServiceProvider } = require('@adonisjs/fold');
-const { hooks } = require('@adonisjs/ignitor');
-const RouteStore = require('@adonisjs/framework/src/Route/Store');
-const Route = require('@adonisjs/framework/src/Route/index');
+const adonis = `../../../mandala-api/node_modules/@adonisjs`;
+
+// const { ServiceProvider } = require('@adonisjs/fold');
+const { ServiceProvider } = require(`${adonis}/fold`);
+
+// const { hooks } = require('@adonisjs/ignitor');
+const { hooks } = require(`${adonis}/ignitor`);
+
+// const RouteStore = require('@adonisjs/framework/src/Route/Store');
+const RouteStore = require(`${adonis}/framework/src/Route/Store`);
+
+// const Route = require('@adonisjs/framework/src/Route/index');
+const Route = require(`${adonis}/framework/src/Route/index`);
 
 const StaticDocs = require('../middleware/StaticDocs');
 const path = require('path');
 const fs = require('fs');
+
+const outPath = path.join(__dirname, '..', 'template', 'out');;
 
 class AdonisApiDocsProvider extends ServiceProvider {
 
@@ -29,8 +40,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
     loadRoutes() {
         const routes = RouteStore.list();
         const routesStringfy = JSON.stringify(routes);
-        const dist = path.join(__dirname, '..', 'public', 'routes');
-        fs.writeFileSync(dist, routesStringfy);
+        fs.writeFileSync(outPath, routesStringfy);
     }
 
     /**
@@ -43,8 +53,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
     registerStaticMiddleware() {
         this.app.bind('Adonis/Middleware/StaticDocs', (app) => {
             const Helpers = app.use('Adonis/Src/Helpers');
-            const publicPath = path.join(__dirname, '..', 'public');
-            return StaticDocs(publicPath, app.use('Adonis/Src/Config'), Helpers.promisify);
+            return StaticDocs(outPath, app.use('Adonis/Src/Config'), Helpers.promisify);
         });
 
         const Server = use('Server')
