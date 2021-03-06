@@ -1,6 +1,6 @@
 {
   "name": "adonis-api-docs",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
@@ -8,7 +8,9 @@
     "url": "git+https://github.com/alepontes/adonis-api-docs.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "template-build": "cd template/ && next build && next export",
+    "template-dev": "cd template/ && next dev",
+    "template-start": "cd template/ && next start"
   },
   "keywords": [
     "adonisjs",
@@ -29,6 +31,12 @@
     "@adonisjs/ignitor": "^2.0.8"
   },
   "dependencies": {
-    "serve-static": "^1.14.1"
+    "npm": "^7.6.1",
+    "serve-static": "^1.14.1",
+    "fs": "0.0.1-security",
+    "next": "10.0.7",
+    "path": "^0.12.7",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
   }
 }

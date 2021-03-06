@@ -1,7 +1,20 @@
+# node_modules
 node_modules
 
-template/node_modules
-template/out
-template/.next
-template/public/routes
+# packeges
 *.tgz
+
+# node_modules
+template/node_modules
+
+# dist static files
+template/out
+
+# routes 
+template/public/routes
+
+# next.js
+template/.next/
+
+# production
+template/build
