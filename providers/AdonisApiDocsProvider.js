@@ -1,31 +1,14 @@
 'use strict'
 
-// const { ServiceProvider } = require('@adonisjs/fold');
-// const { hooks } = require('@adonisjs/ignitor');
-// const RouteStore = require('@adonisjs/framework/src/Route/Store');
-// const Route = require('@adonisjs/framework/src/Route/index');
-
-const adonis = `../../../mandala-api/node_modules/@adonisjs`;
-
-// const { ServiceProvider } = require('@adonisjs/fold');
-const { ServiceProvider } = require(`${adonis}/fold`);
-
-// const { hooks } = require('@adonisjs/ignitor');
-const { hooks } = require(`${adonis}/ignitor`);
-
-// const RouteStore = require('@adonisjs/framework/src/Route/Store');
-const RouteStore = require(`${adonis}/framework/src/Route/Store`);
-
-// const Route = require('@adonisjs/framework/src/Route/index');
-const Route = require(`${adonis}/framework/src/Route/index`);
-
+const { ServiceProvider } = require('@adonisjs/fold');
+const { hooks } = require('@adonisjs/ignitor');
+const RouteStore = require('@adonisjs/framework/src/Route/Store');
+const Route = require('@adonisjs/framework/src/Route/index');
 
 const StaticDocs = require('../middleware/StaticDocs');
-const path = require('path');
 const fs = require('fs');
 const npm = require('npm');
-
-const templatePath = path.join(__dirname, '..', 'template');;
+const paths = require('../paths');
 
 class AdonisApiDocsProvider extends ServiceProvider {
 
@@ -48,10 +31,25 @@ class AdonisApiDocsProvider extends ServiceProvider {
     loadRoutes() {
         const routes = RouteStore.list();
         const routesStringfy = JSON.stringify(routes);
-        fs.writeFileSync(`${templatePath}/public/routes`, routesStringfy);
+        fs.writeFileSync(`${paths.public}/routes`, routesStringfy);
     }
 
-    buildTemplate() { }
+    buildTemplate() {
+        npm.load((err) => {
+
+            err && console.log('Errouuuuuuuuu');
+
+            npm.prefix = paths.root;
+            npm.commands['run-script'](['template-build'], (err, data) => {
+                console.log(err);
+                console.log(data);
+            });
+
+            npm.on('log', (message) => {
+                console.log(message);
+            });
+        });
+    }
 
     /**
      * Register the static resource middleware provider
@@ -63,7 +61,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
     registerStaticMiddleware() {
         this.app.bind('Adonis/Middleware/StaticDocs', (app) => {
             const Helpers = app.use('Adonis/Src/Helpers');
-            return StaticDocs(`${templatePath}/out`, app.use('Adonis/Src/Config'), Helpers.promisify);
+            return StaticDocs(`${paths.public}`, app.use('Adonis/Src/Config'), Helpers.promisify);
         });
 
         const Server = use('Server')
@@ -79,8 +77,8 @@ class AdonisApiDocsProvider extends ServiceProvider {
      */
     registerDocRouter() {
         const handler = ctx => {
-            const index = fs.readFileSync(`${templatePath}/index.html`, 'utf-8');
-            
+            const index = fs.readFileSync(`${paths.public}/index.html`, 'utf-8');
+
             const response = ctx.response.response
             response.writeHeader(200, { "Content-Type": "text/html" });
             response.write(index);
