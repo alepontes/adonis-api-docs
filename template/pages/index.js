@@ -1,5 +1,4 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
 import fs from 'fs';
 import path from 'path';
 
@@ -16,7 +15,7 @@ export async function getStaticProps(context) {
 export default function Home({ data }) {
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Adonis API Docs</title>
         <link rel="icon" href="/favicon.ico" />

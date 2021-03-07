@@ -34,6 +34,13 @@ class AdonisApiDocsProvider extends ServiceProvider {
         fs.writeFileSync(`${paths.template}/public/routes`, routesStringfy);
     }
 
+    /**
+     * Build templete Next with NPM API
+     * 
+     * @method buildTemplate
+     * 
+     * @return {void}
+     */
     buildTemplate() {
         npm.load((err) => {
 
