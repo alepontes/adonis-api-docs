@@ -1,3 +1,6 @@
+**Important**
+> This package is being developed, it will be stable from version v1.0.0, come back in a few days :)
+
 # Adonis API Docs 
 Automatic API documentation creator for AdonisJS
 

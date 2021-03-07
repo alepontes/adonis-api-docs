@@ -1,6 +1,6 @@
 {
   "name": "adonis-api-docs",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
