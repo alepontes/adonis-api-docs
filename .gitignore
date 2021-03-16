@@ -18,3 +18,5 @@ template/.next/
 
 # production
 template/build
+
+.temp

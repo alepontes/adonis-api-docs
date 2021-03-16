@@ -10,7 +10,8 @@
   "scripts": {
     "template-build": "cd template/ && next build && next export",
     "template-dev": "cd template/ && next dev",
-    "template-start": "cd template/ && next start"
+    "template-start": "cd template/ && next start",
+    "dev": "npm run template-build && npm run template-dev"
   },
   "keywords": [
     "adonisjs",
@@ -22,6 +23,7 @@
     "/providers",
     "/*.md",
     "/*.json",
+    "/.babelrc",
     "/paths.js",
     "/template/pages",
     "/template/public/favicon.ico",
@@ -37,12 +39,14 @@
     "@adonisjs/ignitor": "^2.0.8"
   },
   "dependencies": {
-    "npm": "^7.6.1",
-    "serve-static": "^1.14.1",
     "fs": "0.0.1-security",
+    "lodash": "^4.17.21",
     "next": "10.0.7",
+    "npm": "^7.6.1",
     "path": "^0.12.7",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "serve-static": "^1.14.1",
+    "styled-components": "^5.2.1"
   }
 }

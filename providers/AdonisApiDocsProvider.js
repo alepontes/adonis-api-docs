@@ -9,6 +9,7 @@ const StaticDocs = require('../middleware/StaticDocs');
 const fs = require('fs');
 const npm = require('npm');
 const paths = require('../paths');
+const _ = require('lodash');
 
 class AdonisApiDocsProvider extends ServiceProvider {
 
@@ -30,8 +31,33 @@ class AdonisApiDocsProvider extends ServiceProvider {
      */
     loadRoutes() {
         const routes = RouteStore.list();
-        const routesStringfy = JSON.stringify(routes);
+        const groups = this.getGroups(routes);
+        const routesStringfy = JSON.stringify(groups);
         fs.writeFileSync(`${paths.template}/public/routes`, routesStringfy);
+    }
+
+    /**
+     * Groups endpoints by path 
+     * 
+     * @method getGroups
+     * 
+     * @return {Array}
+     */
+    getGroups(routes) {
+
+        const routesWithGroup = routes.map(route => {
+            route.group = route._route
+                .split('/')
+                .slice(0, 2)
+                .join('/');
+
+            return route;
+        });
+
+        return _.chain(routesWithGroup)
+            .groupBy('group')
+            .map((value, key) => ({ group: key, routes: value }))
+            .value();
     }
 
     /**
