@@ -1,9 +1,6 @@
 'use strict'
 
-const { ServiceProvider } = require('@adonisjs/fold');
-const { hooks } = require('@adonisjs/ignitor');
-const RouteStore = require('@adonisjs/framework/src/Route/Store');
-const Route = require('@adonisjs/framework/src/Route/index');
+const { ServiceProvider, hooks, RouteStore, Route } = require('../adonis-imports');
 
 const StaticDocs = require('../middleware/StaticDocs');
 const fs = require('fs');
