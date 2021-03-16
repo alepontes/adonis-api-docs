@@ -1,6 +1,6 @@
 {
   "name": "adonis-api-docs",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
@@ -25,6 +25,7 @@
     "/*.json",
     "/.babelrc",
     "/paths.js",
+    "/adonis-imports.js",
     "/template/pages",
     "/template/public/favicon.ico",
     "/template/public/vercel.svg",
