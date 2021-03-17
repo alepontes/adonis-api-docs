@@ -1,6 +1,6 @@
 'use strict'
 
-const { ServiceProvider, hooks, RouteStore, Route } = require('../adonis-imports');
+const { ServiceProvider, hooks, RouteStore, Route, resolver } = require('../adonis-imports');
 
 const StaticDocs = require('../middleware/StaticDocs');
 const fs = require('fs');
@@ -28,9 +28,9 @@ class AdonisApiDocsProvider extends ServiceProvider {
      */
     loadRoutes() {
         const routes = RouteStore.list();
-        const groups = this.getGroups(routes);
-        const routesStringfy = JSON.stringify(groups);
-        fs.writeFileSync(`${paths.template}/public/routes`, routesStringfy);
+        const rules = this.loadRules(routes);
+        const groups = this.getGroups(rules);
+        this.writeRoutes(groups);
     }
 
     /**
@@ -55,6 +55,49 @@ class AdonisApiDocsProvider extends ServiceProvider {
             .groupBy('group')
             .map((value, key) => ({ group: key, routes: value }))
             .value();
+    }
+
+    /**
+     * load route validator rules 
+     * 
+     * @method loadRules
+     * 
+     * @return {void}
+     */
+    loadRules(routes = []) {
+
+        const routerList = [];
+
+        for (const route of routes) {
+            const av = route.middlewareList.find(middleware => middleware.startsWith('av:'));
+            if (!av) {
+                routerList.push(route);
+            } else {
+                const validator = av.replace('av:', '');
+                const validatorInstance = resolver.forDir('validators').resolve(validator);
+
+                const roteWithRules = Object.assign(
+                    route,
+                    { rules: validatorInstance.rules },
+                );
+
+                routerList.push(roteWithRules);
+            }
+        }
+
+        return routerList;
+    }
+
+    /**
+     * write routes
+     * 
+     * @method writeRoutes
+     * 
+     * @return {void}
+     */
+    writeRoutes(routes) {
+        const routesStringfy = JSON.stringify(routes);
+        fs.writeFileSync(`${paths.template}/public/routes`, routesStringfy);
     }
 
     /**
