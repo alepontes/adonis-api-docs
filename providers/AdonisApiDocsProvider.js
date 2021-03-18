@@ -76,12 +76,10 @@ class AdonisApiDocsProvider extends ServiceProvider {
                 const validator = av.replace('av:', '');
                 const validatorInstance = resolver.forDir('validators').resolve(validator);
 
-                const roteWithRules = Object.assign(
-                    route,
-                    { rules: validatorInstance.rules },
-                );
-
-                routerList.push(roteWithRules);
+                routerList.push({
+                    ...route,
+                    rules: validatorInstance.rules,
+                });
             }
         }
 

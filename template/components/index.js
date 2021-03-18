@@ -45,3 +45,8 @@ export const Endpoint = styled.p`
     border: 1px solid black;
 `;
 
+export const RulesContainer = styled.div`
+    border: 1px solid black;
+    padding: 10px;
+    overflow: scroll;
+`;

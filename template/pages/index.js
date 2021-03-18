@@ -10,7 +10,8 @@ import {
   Content,
   EndpointList,
   Endpoint,
-  GroupTitle
+  GroupTitle,
+  RulesContainer,
 } from '../components';
 
 export async function getStaticProps(context) {
@@ -25,13 +26,18 @@ const Route = route => {
   return (
     <EndpointList>
       <Endpoint key={Math.random()}>{route.verbs[0]} {route.route}</Endpoint>
+
+      <RulesContainer>
+        <p>{ JSON.stringify(route.rules) || 'No Validation' }</p>
+      </RulesContainer>
+
     </EndpointList>
   );
 }
 
 const RouterGroup = group => {
   return (
-    <Group key={Math.random()}>
+    <Group key={Math.random(group.group) * 99999}>
       <GroupTitle>{group.group}</GroupTitle>
       { group.routes.map(route => Route(route))}
     </Group>
