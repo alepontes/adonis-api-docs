@@ -1,6 +1,6 @@
 {
   "name": "adonis-api-docs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Automatic API documentation creator for AdonisJS",
   "main": "index.js",
   "repository": {
@@ -33,11 +33,8 @@
   "dependencies": {
     "fs": "0.0.1-security",
     "lodash": "^4.17.21",
-    "next": "10.0.7",
     "path": "^0.12.7",
-    "react": "17.0.1",
     "react-dom": "17.0.1",
-    "serve-static": "^1.14.1",
     "styled-components": "^5.2.1",
     "swagger-ui-dist": "^3.45.1"
   }
