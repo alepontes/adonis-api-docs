@@ -4,7 +4,6 @@ const { ServiceProvider, hooks, RouteStore, Route, resolver } = require('../adon
 
 const StaticDocs = require('../middleware/StaticDocs');
 const fs = require('fs');
-const npm = require('npm');
 const paths = require('../paths');
 const _ = require('lodash');
 
@@ -13,7 +12,6 @@ class AdonisApiDocsProvider extends ServiceProvider {
     async boot() {
         hooks.after.preloading(() => {
             this.loadRoutes();
-            this.buildTemplate();
             this.registerStaticMiddleware();
             this.registerDocRouter();
         });
@@ -95,31 +93,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
      */
     writeRoutes(routes) {
         const routesStringfy = JSON.stringify(routes);
-        fs.writeFileSync(`${paths.template}/public/routes`, routesStringfy);
-    }
-
-    /**
-     * Build templete Next with NPM API
-     * 
-     * @method buildTemplate
-     * 
-     * @return {void}
-     */
-    buildTemplate() {
-        npm.load((err) => {
-
-            err && console.log('Errouuuuuuuuu');
-
-            npm.prefix = paths.root;
-            npm.commands['run-script'](['template-build'], (err, data) => {
-                console.log(err);
-                console.log(data);
-            });
-
-            npm.on('log', (message) => {
-                console.log(message);
-            });
-        });
+        // fs.writeFileSync(`${paths.absolutePath}/routes.json`, routesStringfy);
     }
 
     /**
@@ -148,7 +122,7 @@ class AdonisApiDocsProvider extends ServiceProvider {
      */
     registerDocRouter() {
         const handler = ctx => {
-            const index = fs.readFileSync(`${paths.public}/index.html`, 'utf-8');
+            const index = fs.readFileSync(`${paths.root}/assets/index.html`, 'utf-8');
 
             const response = ctx.response.response
             response.writeHeader(200, { "Content-Type": "text/html" });
