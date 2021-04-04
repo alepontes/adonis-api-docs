@@ -1,0 +1,180 @@
+const { ServiceProvider } = require('@adonisjs/fold');
+const { hooks } = require('@adonisjs/ignitor');
+const RouteStore = require('@adonisjs/framework/src/Route/Store');
+const Route = require('@adonisjs/framework/src/Route/index');
+
+
+
+const adonis = `../../../mandala-api/node_modules/@adonisjs`;
+
+// const { ServiceProvider } = require('@adonisjs/fold');
+const { ServiceProvider } = require(`${adonis}/fold`);
+
+// const { hooks } = require('@adonisjs/ignitor');
+const { hooks } = require(`${adonis}/ignitor`);
+
+// const RouteStore = require('@adonisjs/framework/src/Route/Store');
+const RouteStore = require(`${adonis}/framework/src/Route/Store`);
+
+// const Route = require('@adonisjs/framework/src/Route/index');
+const Route = require(`${adonis}/framework/src/Route/index`);
+
+
+        const conf = {};
+
+        npm.load(conf, (err) => {
+
+            if (err) {
+                console.log('Errouuuuuuuuu');
+            }
+
+            npm.commands['run-script']([]);
+        });
+
+
+
+Esse pacote esta sendo desenvolvido, estará estável a partir da versão v1.0.0, volte em alguns dias :)
+
+This package was bilding, was stable afte v1.0.0, back in some days :)
+
+
+
+
+module.exports = {
+    webpack: (config) => {
+        const rule = config.module.rules[0];
+        const originalExcludeMethod = rule.exclude;
+        config.module.rules[0].exclude = (moduleName, ...otherArgs) => {
+            // we want to explicitly allow our plugin
+            if (moduleName.indexOf("node_modules/adonis-api-docs") >= 0) {
+                return false;
+            }
+
+            // otherwise, use the original rule
+            return originalExcludeMethod(moduleName, ...otherArgs);
+        };
+
+        return config;
+    },
+};
+
+
+
+
+-----------------------------------------------------------------
+
+
+const fs = require('fs')
+const _ = require('lodash');
+
+// const route = '/products/:id/images/:imageId';
+// console.log(r);
+// return
+
+const defineGroup = (routesArray) => {
+    return routesArray.map(element => {
+        element.group = element.route
+            .split('/')
+            .slice(0, 2)
+            .join('/');
+
+        return element;
+    });
+
+}
+
+const getGroups = (arrayWithGroup) => {
+    const groups = new Set();
+    arrayWithGroup.map(route => groups.add(route.group));
+    return Array.from(groups);
+}
+
+const groupBy = (data) => {
+    return _.chain(data)
+        // Group the elements of Array based on `color` property
+        .groupBy("group")
+        // `key` is group's name (color), `value` is the array of objects
+        .map((value, key) => ({ group: key, routes: value }))
+        .value()
+}
+
+const raw = fs.readFileSync('./routes', 'utf-8');
+const array = JSON.parse(raw);
+
+const arrayWithGroup = defineGroup(array);
+const groups = groupBy(arrayWithGroup)
+console.log(groups[5]);
+
+
+
+const a = {
+    route: '/orders/:orderId/notes',
+    verbs: [Array],
+    handler: 'OrderController.patchNotesStylist',
+    middleware: [Array],
+    name: '/orders/:orderId/notes',
+    domain: null
+}
+
+
+
+{
+    "env": {
+        "development": {
+            "plugins": [
+                [
+                    "styled-components",
+                    {
+                        "ssr": true,
+                        "displayName": true,
+                        "preprocess": false
+                    }
+                ]
+            ],
+            "presets": [
+                "next/babel"
+            ]
+        },
+        "production": {
+            "plugins": [
+                [
+                    "styled-components",
+                    {
+                        "ssr": true,
+                        "displayName": true,
+                        "preprocess": false
+                    }
+                ]
+            ],
+            "presets": [
+                "next/babel"
+            ]
+        }
+    },
+    "plugins": [
+        [
+            "styled-components",
+            {
+                "ssr": true,
+                "displayName": true,
+                "preprocess": false
+            }
+        ]
+    ]
+}
+
+
+{
+    "presets": ["next/babel"],
+    "plugins": [["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]]
+}
+
+
+    /**
+     * Lorem Ipsum
+     * 
+     * @method func
+     * 
+     * @return {void}
+     */
+    ___func(routes) { }

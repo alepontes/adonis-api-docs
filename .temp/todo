@@ -1,0 +1,20 @@
+
+Validation/index.js
+Roda os testes 
+
+Middleware/Validator.js handler 
+
+------
+
+O Handler do arquivo Middleware é chamado 
+_runValidations é chamado e executa os testes é retorna as mensages de erros
+
+Validation/index é chamado no _runValidations o run ou runAll é rodado
+indicative.validate() <- https://indicative.adonisjs.com/guides/master/introduction#basic-example
+
+Veriricar onde rodar 3 funcs
+
+
+Provavelmente só precisarei mexer na func _runValidations
+
+

@@ -1,0 +1,140 @@
+const a = {
+    'order.id': 'required|exists:orders,id',
+    'order.operationNature': 'in:NV,NVM',
+    'order.type': 'in:S,E',
+    'order.customer.fullName': 'required',
+    'order.customer.type': 'required|in:J,F,E',
+    'order.customer.address': 'required',
+    'order.customer.number': 'required',
+    'order.customer.neighborhood': 'required',
+    'order.customer.zipcode': 'required',
+    'order.customer.city': 'required',
+    'order.customer.uf': 'required',
+    'order.customer.email': 'required',
+    'order.items': 'array',
+    'order.items.*.name': 'required',
+    'order.items.*.quantity': 'required|number',
+    'order.items.*.unityPrice': 'number',
+    'order.items.*.type': 'required|in:P,S',
+    'order.items.*.classFiscal': 'required',
+    'order.items.*.origin': 'required|number|in:0,1,2,3,4,5,6,7',
+}
+
+const b = {
+    'customerId': 'exists:customers,id',
+    'email': 'required|email|max:200',
+    'whatsappRequests': 'max:5000',
+    'fullName': `max:500`,
+    'specific': 'boolean',
+    'deliveryAt': 'date',
+    'withdrawalAt': 'date',
+    'notesLogistics': 'max:5000',
+    'address': 'max:1000',
+    'orderDiscount': 'max:50',
+    'rate': 'max:5',
+    'paymentMethod': 'max:50',
+    'specificOrderStatus': 'in:REQUESTED,BRAND,VIRTUAL_BAG,SEPARATED,CUSTOMER,INVOICE_SENT,CANCELED,PAYED,SUPPORTS',
+    'address.street': 'max:200',
+    'address.neighborhood': 'max:200',
+    'address.number': 'max:200',
+    'address.city': 'max:200',
+    'address.state': 'max:200',
+    'address.country': 'max:200',
+    'address.zipcode': 'max:200',
+    'address.additionalDetails': 'max:200',
+    'address.areaStatus': 'max:200',
+}
+
+const c = {
+    'orders.*.operationNature': 'in:NDS,NDE,NC,NRS,NRC',
+    'orders.*.type': 'in:S,E',
+    'orders.*.referenceDoc.model': 'required|in:1,2,2D,4,55,65',
+    'orders.*.referenceDoc.number': 'number',
+    'orders.*.customer.fullName': 'required',
+    'orders.*.customer.type': 'required|in:J,F,E',
+    'orders.*.customer.address': 'required',
+    'orders.*.customer.number': 'required',
+    'orders.*.customer.neighborhood': 'required',
+    'orders.*.customer.zipcode': 'required',
+    'orders.*.customer.city': 'required',
+    'orders.*.customer.uf': 'required',
+    'orders.*.customer.email': 'required',
+    'orders.*.items': 'array',
+    'orders.*.items.*.name': 'required',
+    'orders.*.items.*.quantity': 'required|number',
+    'orders.*.items.*.unityPrice': 'number',
+    'orders.*.items.*.type': 'required|in:P,S',
+    'orders.*.items.*.ncm': 'required',
+    'orders.*.items.*.origin': 'required|number|in:0,1,2,3,4,5,6,7',
+    'orders.*.items.*.ncm': 'expectedLength:2,8',
+}
+
+const d = {
+    'nfes.*.number': 'required|number',
+    'nfes.*.serie': 'required',
+    'nfes.*.sendEmail': 'required|boolean'
+}
+
+const _ = require('lodash');
+
+function resolveNotation(key = '', value) {
+
+    if (key.includes('.*.')) {
+        const split = key.split('.*.');
+        const lastElement = split.pop(-1);
+        key = split.join('.*.');
+        return resolveNotation(key, [{ [lastElement]: value }]);
+    }
+
+    if (key.includes('.')) {
+        const split = key.split('.');
+        const lastElement = split.pop(-1);
+        key = split.join('.');
+        return resolveNotation(key, { [lastElement]: value });
+    }
+
+    return {
+        [key]: value,
+    }
+
+}
+
+
+function toDeepObject(obg) {
+    const keys = Object.keys(obg);
+
+    return keys.reduce((acc, cur) => {
+
+        const key = cur;
+        const value = obg[cur];
+
+        const b = resolveNotation(key, value);
+        return _.merge(acc, b);
+    }, {});
+
+}
+
+
+
+console.log(JSON.stringify(toDeepObject(c)))
+
+
+
+
+// order: {
+//     items: [{ unityPrice }]
+// }
+
+
+// ----------------1  
+// key = key.replace('.*.', '<>');
+// key = key.split('<>').join(': [{').concat(`: ${value} }]`);
+
+// console.log(key);
+
+
+// const split = key.split('.').map(item => `"${item}"`);
+// console.log(split);
+// const result = split.join(`: {`).concat(`: "${value}" ${'}'.repeat(split.length - 1)}`)
+// console.log(result)
+// return JSON.parse(`{${result}}`);
