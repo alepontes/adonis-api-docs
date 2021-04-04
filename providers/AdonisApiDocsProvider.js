@@ -323,34 +323,6 @@ class AdonisApiDocsProvider extends ServiceProvider {
         };
     }
 
-
-    /**
-     * Groups endpoints by path 
-     * 
-     * @method getGroups
-     * @private
-     * @return {Array}
-     */
-    addTags(routes) {
-
-        const routesWithGroup = routes.map(route => {
-            route.tag = route._route
-                .split('/')
-                .slice(1, 2)
-                .join('/');
-
-            return route;
-        });
-
-        console.log('routesWithGroup');
-        console.log(routesWithGroup);
-
-        return _.chain(routesWithGroup)
-            .groupBy('group')
-            .map((value, key) => ({ group: key, routes: value }))
-            .value();
-    }
-
     /**
      * load route validator rules 
      * 

@@ -92,7 +92,7 @@ class BuildPaths {
     /** Returns Body parameters */
     getBody() {
 
-        if (!this._body) {
+        if (!this._body.length) {
             return [];
         }
 
@@ -118,7 +118,7 @@ class BuildPaths {
             // description: "List of user object",
             required: true,
             schema: {
-                type: "object",
+                type: _.isArray(swaggerFormat) ? 'array' : 'object',
                 properties: swaggerFormat,
             }
         }];
@@ -238,7 +238,6 @@ class BuildPaths {
         });
 
     }
-
 
     /** Flat object to deep object 
      * // to
