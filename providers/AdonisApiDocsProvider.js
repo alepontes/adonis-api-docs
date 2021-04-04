@@ -46,8 +46,6 @@ class AdonisApiDocsProvider extends ServiceProvider {
         const tags = this.getTags(routes);
         const definitions = this.getDefinitions();
 
-        console.log(paths);
-
         return {
             swagger: "2.0",
             paths: paths,
@@ -97,9 +95,9 @@ class AdonisApiDocsProvider extends ServiceProvider {
                                 "application/json",
                             ],
                             parameters: [
-                                ...bodyParams,
                                 ...pathParams,
                                 ...queryParams,
+                                ...bodyParams,
                             ],
                             responses: {
                                 "default": {

@@ -119,8 +119,7 @@ class BuildPaths {
             required: true,
             schema: {
                 type: "object",
-                // properties: properties,
-                swaggerFormat,
+                properties: swaggerFormat,
             }
         }];
     }
@@ -163,7 +162,81 @@ class BuildPaths {
     */
     _getSwaggerFormat(obj) {
         const deepObject = this._toDeepObject(obj);
-        return deepObject;
+        return this._swaggerTyping(deepObject);
+    }
+
+    /** Add swagger typing
+     * 
+     * @example
+     * // to
+     * {
+     *  item: 'require',
+     *  array: [{
+     *      item1: 'require',
+     *      item2: 'require',
+     *  }],
+     *  object: {
+     *      item1: 'require',
+     *      item2: 'require',
+     *  }
+     * }
+     * 
+     * // returns
+     * {
+     * 	"item": {
+     * 		"type": "string"
+     * 	},
+     * 	"array": {
+     * 		"type": "array",
+     * 		"items": {
+     * 			"item1": {
+     * 				"type": "string"
+     * 			},
+     * 			"item2": {
+     * 				"type": "string"
+     * 			}
+     * 		}
+     * 	},
+     * 	"object": {
+     * 		"type": "object",
+     * 		"properties": {
+     * 			"item1": {
+     * 				"type": "string"
+     * 			},
+     * 			"item2": {
+     * 				"type": "string"
+     * 			}
+     * 		}
+     * 	}
+     * }
+     * 
+     * @private
+    */
+    _swaggerTyping(obj) {
+        return _.mapValues(obj, (value, key) => {
+            if (_.isString(value)) {
+                return {
+                    type: 'string',
+                }
+            }
+
+            if (_.isArray(value)) {
+                return {
+                    type: 'array',
+                    items: this._swaggerTyping(value[0]),
+                }
+            }
+
+            if (_.isObject(value)) {
+                return {
+                    type: 'object',
+                    properties: this._swaggerTyping(value),
+                }
+            }
+
+            return value;
+        });
+
     }
 
 
