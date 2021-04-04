@@ -41,7 +41,10 @@ class BuildPaths {
 
     /** */
     getTag() {
-        return this.route.tag;
+        return this.route._route
+            .split('/')
+            .slice(1, 2)
+            .join('/');
     }
 
     /** */
@@ -160,7 +163,6 @@ class BuildPaths {
     */
     _getSwaggerFormat(obj) {
         const deepObject = this._toDeepObject(obj);
-        console.log(deepObject);
         return deepObject;
     }
 
